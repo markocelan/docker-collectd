@@ -16,4 +16,4 @@ RUN /usr/bin/opkg-install procps \
 
 RUN /bin/echo -e '\n<Plugin network>\n\tServer "%PLACEHOLDER_HOST%" "%PLACEHOLDER_PORT%"\n</Plugin>\n' >> /etc/collectd.conf
 
-ENTRYPOINT [ "/bin/sh", "-c", "sed -i \"s|%PLACEHOLDER_HOST%|$COLLECTD_HOST|\" /etc/collectd.conf   &&   sed -i \"s|%PLACEHOLDER_PORT%|$COLLECTD_PORT|\" /etc/collectd.conf   &&   sed -i \"s|Interval.*|Interval $COLLECTD_INTERVAL|\" /etc/collectd.conf  &&   /usr/sbin/collectd -C /etc/collectd.conf -f " ]
+ENTRYPOINT [ "/bin/sh", "-c", "sed -i \"s|%PLACEHOLDER_HOST%|${COLLECTD_PORT_25826_UDP_ADDR}|\" /etc/collectd.conf   &&   sed -i \"s|%PLACEHOLDER_PORT%|${COLLECTD_PORT_25826_UDP_PORT}|\" /etc/collectd.conf   &&   sed -i \"s|Interval.*|Interval ${COLLECTD_INTERVAL:-10}|\" /etc/collectd.conf  &&   /usr/sbin/collectd -C /etc/collectd.conf -f " ]
